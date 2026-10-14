@@ -1,0 +1,128 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ShelterCare Demo</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+<aside class="side">
+<div class="brand">♥ ShelterCare<small>Liquid Food Dispensing System</small></div>
+<nav class="nav">
+<button class="active" data-page="dashboard">▦ Dashboard</button>
+<button data-page="animals">🐾 Animals</button>
+<button data-page="schedule">◷ Feeding Schedule</button>
+<button data-page="dispensing">♧ Dispensing Monitor</button>
+<button data-page="history">☷ Feeding History</button>
+<button data-page="alerts">⚠ Alerts</button>
+</nav>
+<p class="small" style="color:#bdc9da">Coordinator demo<br>Sample data only · No hardware connected</p>
+</aside>
+<main>
+<header class="top">
+<div>
+<div class="eyebrow">Animal shelter management</div>
+<h1 id="title">Dashboard</h1>
+</div>
+<div class="user">👤 Caretaker Demo</div>
+</header>
+<section class="page active" id="dashboard">
+<p class="muted">Monitor registered animals, upcoming feeding sessions and dispensing activity.</p>
+<div class="stats">
+<div class="stat"><label>Registered animals</label><div class="num" id="animalCount">4</div><span class="muted">Unique profiles</span></div>
+<div class="stat"><label>Feeding schedules</label><div class="num" id="scheduleCount">3</div><span class="muted">Saved demo schedules</span></div>
+<div class="stat"><label>Dispensing records</label><div class="num" id="logCount">2</div><span class="muted">Demo attempts</span></div>
+<div class="stat"><label>Open alerts</label><div class="num" id="alertCount">1</div><span class="muted">Needs review</span></div>
+</div>
+<div class="cols">
+<div class="panel"><h2>Upcoming feeding sessions</h2><div id="dashSchedules"></div></div>
+<div class="panel"><h2>System overview</h2>
+<div class="row"><div class="grow"><b>Liquid reservoir</b><div class="muted">Sample status</div></div><span class="pill green">Available*</span></div>
+<div class="row"><div class="grow"><b>Temperature</b><div class="muted">No real sensor reading</div></div><span class="pill orange">Demo</span></div>
+<div class="row"><div class="grow"><b>Dispenser connection</b><div class="muted">Hardware not connected</div></div><span class="pill orange">Simulation</span></div>
+<p class="small">*All values are illustrative, not live readings. Actual feeding quantities require veterinary guidance.</p>
+</div>
+</div>
+</section>
+<section class="page" id="animals">
+<div class="head"><div><h2>Animal profiles</h2><p class="muted">Each animal receives a unique permanent ID.</p></div><button class="btn" id="showForm">+ Register animal</button></div>
+<div class="panel" id="formPanel" hidden>
+<h2>Register an animal</h2>
+<form id="animalForm">
+<div class="formgrid">
+<div class="field"><label>Animal type</label><select id="species"><option>Puppy</option><option>Kitten</option><option>Other</option></select></div>
+<div class="field"><label>Name / temporary label</label><input id="name" placeholder="e.g. Brown Puppy"></div>
+<div class="field"><label>Estimated age</label><input id="age" placeholder="e.g. 3 weeks"></div>
+<div class="field"><label>Kennel / location *</label><input id="kennel" required placeholder="e.g. A1"></div>
+</div>
+<div class="actions"><button class="btn">Create profile</button><button class="btn secondary" type="button" id="cancel">Cancel</button></div>
+</form>
+</div>
+<div class="cards" id="animalCards"></div>
+<p class="small">QR labels can be added in a later version. Records in this demo are held in the current page session only.</p>
+</section>
+<section class="page" id="schedule">
+<div class="head"><div><h2>Feeding schedule</h2><p class="muted">Use veterinarian-approved quantities and intervals.</p></div></div>
+<div class="panel">
+<form id="scheduleForm">
+<div class="formgrid">
+<div class="field"><label>Animal</label><select id="scheduleAnimal"></select></div>
+<div class="field"><label>Scheduled time</label><input type="time" id="feedTime" value="08:00" required></div>
+<div class="field"><label>Target quantity (mL)</label><input type="number" id="quantity" min=".1" step=".1" placeholder="Approved quantity" required></div>
+<div class="field"><label>Interval / notes</label><input id="notes" placeholder="As advised by veterinarian"></div>
+</div>
+<div class="actions"><button class="btn">Save schedule</button></div>
+</form>
+</div>
+<div class="panel" style="margin-top:14px">
+<h2>Saved schedules</h2>
+<div class="tablewrap">
+<table>
+<thead><tr><th>Animal ID</th><th>Animal</th><th>Time</th><th>Target</th><th>Notes</th></tr></thead>
+<tbody id="scheduleRows"></tbody>
+</table>
+</div>
+</div>
+<p class="small">Sample quantities are for interface demonstration only, not recommendations for actual animals.</p>
+</section>
+<section class="page" id="dispensing">
+<p class="muted">Simulate a dispensing record for the coordinator demo.</p>
+<div class="notice">Simulation only: this button does not activate a pump. Real dispensing requires connected hardware, validated sensors and safety interlocks.</div>
+<div class="panel">
+<form id="dispenseForm">
+<div class="formgrid">
+<div class="field"><label>Animal</label><select id="dispenseAnimal"></select></div>
+<div class="field"><label>Simulated measured quantity (mL)</label><input id="measured" type="number" min="0" step=".1" value="10" required></div>
+</div>
+<div class="actions"><button class="btn">Run demo cycle</button></div>
+</form>
+<div id="result" class="small">No demo cycle run yet.</div>
+</div>
+<div class="panel" style="margin-top:14px">
+<h2>Hardware status</h2>
+<div class="row"><div class="grow">Pump</div><span class="pill orange">Not connected</span></div>
+<div class="row"><div class="grow">Quantity sensor</div><span class="pill orange">Not connected</span></div>
+<div class="row"><div class="grow">Level sensor</div><span class="pill orange">Not connected</span></div>
+</div>
+</section>
+<section class="page" id="history">
+<div class="head"><div><h2>Dispensing history</h2><p class="muted">Review every recorded attempt and its outcome.</p></div></div>
+<div class="panel tablewrap">
+<table>
+<thead><tr><th>Time</th><th>Animal ID</th><th>Target</th><th>Measured</th><th>Result</th></tr></thead>
+<tbody id="historyRows"></tbody>
+</table>
+</div>
+</section>
+<section class="page" id="alerts">
+<div class="head"><div><h2>Alerts</h2><p class="muted">Warnings for caretaker review.</p></div></div>
+<div class="panel" id="alertRows"></div>
+</section>
+</main>
+</div>
+<script src="script.js"></script>
+</body>
+</html>
